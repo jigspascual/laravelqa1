@@ -14,7 +14,7 @@ class CreateQASTable extends Migration
     public function up()
     {
         Schema::create('q_a_s', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('Title');
             $table->string('slug')->unique();
             $table->text('body');
@@ -23,9 +23,11 @@ class CreateQASTable extends Migration
             $table->integer('votes')->default(0);
             $table->unsignedInteger('best_answer_id')->nullable();
             $table->unsignedInteger('user_id');
+            $table->foreign('user_id')
+            ->references('id')
+            ->on('users')
+            ->onDelete('cascade');
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
